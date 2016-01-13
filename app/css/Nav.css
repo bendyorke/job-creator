@@ -1,0 +1,92 @@
+:root {
+  --spacing: 0 15px;
+  --logo-size: 40px;
+  --font-size: 16px;
+  --nav-height: 80px;
+}
+
+.container {
+  background: var(--sky-blue);
+  height: var(--nav-height);
+  box-shadow: 0 1px 0 var(--sky-blue-shadow);
+}
+
+.content {
+  composes: content from 'css/Layout';
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer {
+  flex: 1;
+}
+
+.logo {
+  color: white;
+  background: var(--logo-blue);
+  border-radius: var(--logo-size);
+  width: var(--logo-size);
+  height: var(--logo-size);
+  line-height: var(--logo-size);
+  text-align: center;
+  font-size: 24px;
+}
+
+.section {
+  padding: var(--spacing);
+  font-size: var(--font-size);
+  height: var(--nav-height);
+  line-height: var(--nav-height);
+  text-decoration: none;
+  color: var(--steel-blue);
+}
+
+.section:hover {
+  color: color(var(--steel-blue) l(+ 10%));
+  box-shadow: inset 0 -3px 0 color(var(--steel-blue) a(20%));
+  cursor: pointer;
+}
+
+.currentSection {
+  composes: section;
+  box-shadow: inset 0 -3px 0 var(--steel-blue);
+}
+
+.search {
+  background: white;
+  border: 1px solid color(var(--steel-blue) a(10%));
+  border-radius: 3px;
+  padding: 10px;
+  margin: var(--spacing);
+  font-size: var(--font-size);
+}
+
+.settings {
+  margin: var(--spacing);
+  height: var(--font-size);
+  width: var(--font-size);
+  background: url(assets/settings.png) no-repeat center / contain;
+}
+
+.profile {
+  margin: var(--spacing);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+}
+
+.profilePhoto {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: var(--logo-size);
+  background: url(assets/profile-photo.jpg) no-repeat center / cover;
+  overflow: hidden;
+}
+
+.profileCaret {
+  height: 5px;
+  width: 8px;
+  background: url(assets/down-caret.png) no-repeat center / contain;
+}

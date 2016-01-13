@@ -1,0 +1,20 @@
+.container {
+  padding: 50px;
+  text-align: center;
+}
+
+.heart {
+  display: inline-block;
+  background: url(assets/heart.png) no-repeat center / contain;
+  width: 10px;
+  height: 8px;
+  padding: 0 4px 0 6px;
+}
+
+.social {
+  display: inline-block;
+  height: 24px;
+  width: 126px;
+  margin-top: 24px;
+  background: url(assets/social-circles.png) no-repeat center / contain;
+}

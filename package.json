@@ -28,6 +28,8 @@
     "eslint-plugin-react": "^3.11.3",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",
+    "file-loader": "^0.8.5",
+    "postcss-color-function": "^2.0.0",
     "postcss-custom-properties": "^5.0.0",
     "postcss-loader": "^0.8.0",
     "postcss-nested": "^1.0.0",

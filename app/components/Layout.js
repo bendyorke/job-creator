@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import Nav from 'components/Nav'
+import Footer from 'components/Footer'
 import styles from 'css/Layout'
 
 class Layout extends Component {
@@ -9,7 +11,9 @@ class Layout extends Component {
   render() {
     return (
       <div>
-        <div className={styles.nav} />
+        <Nav />
+
+        <Footer />
       </div>
     )
   }

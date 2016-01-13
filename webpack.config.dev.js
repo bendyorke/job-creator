@@ -24,6 +24,7 @@ module.exports = {
   postcss: [
     require('postcss-nested'),
     require('postcss-custom-properties')({ variables: require('./app/css') }),
+    require('postcss-color-function'),
   ],
   module: {
     loaders: [{
@@ -37,6 +38,9 @@ module.exports = {
         'css?module&importLoaders=1&localIdentName=[name]-[local]-[hash:4]',
         'postcss',
       ],
+    }, {
+      test: /\.(png|jpe?g)$/,
+      loaders: ['file'],
     }],
   },
 };

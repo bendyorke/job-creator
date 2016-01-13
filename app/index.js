@@ -35,7 +35,10 @@ routerMiddleware.syncHistoryToStore(store)
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={Layout}/>
+      <Route path="/" component={Layout}>
+        <Route path="jobs" />
+        <Route path="candidates" />
+      </Route>
     </Router>
   </Provider>,
   document.getElementById('root')

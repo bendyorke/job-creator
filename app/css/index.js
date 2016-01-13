@@ -8,5 +8,7 @@ module.exports = {
   'sky-blue': '#FAFDFF',
   'sky-blue-dark': '#E2F3FE',
   'sky-blue-light': '#FCFEFF',
+  'sky-blue-shadow': '#F1F6F9',
+  'logo-blue': '#57BDED',
   'steel-blue': '#4C5C71',
 }
