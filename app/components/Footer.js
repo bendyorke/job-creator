@@ -8,7 +8,7 @@ class Footer extends Component {
         <div>
           Made with
           <span className={styles.heart} />
-          <a href="#">all over the world</a>
+          <a className={styles.link} href="#">all over the world</a>
         </div>
         <div className={styles.social} />
       </div>

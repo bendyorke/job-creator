@@ -6,14 +6,15 @@
     margin: 0;
   }
 
-  input {
+  input, textarea {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: var(--steel-blue);
   }
 }
 
 .content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 0 80px;
+  padding: 0 120px;
 }

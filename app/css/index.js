@@ -9,6 +9,7 @@ module.exports = {
   'sky-blue-dark': '#E2F3FE',
   'sky-blue-light': '#FCFEFF',
   'sky-blue-shadow': '#F1F6F9',
+  'link-blue': '#00AAFF',
   'logo-blue': '#57BDED',
   'steel-blue': '#4C5C71',
 }

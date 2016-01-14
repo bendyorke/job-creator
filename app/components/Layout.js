@@ -6,13 +6,16 @@ import styles from 'css/Layout'
 
 class Layout extends Component {
   static propTypes = {
+    children: PropTypes.node,
   };
 
   render() {
     return (
       <div>
         <Nav />
-
+        <div className={styles.content}>
+          {this.props.children}
+        </div>
         <Footer />
       </div>
     )

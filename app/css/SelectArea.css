@@ -1,0 +1,40 @@
+.container {
+
+}
+
+.option {
+  opacity: 0.7;
+  font-size: 16px;
+  line-height: 22px;
+  display: inline-block;
+  border: 1px solid color(var(--steel-blue) a(30%));
+  padding: 10px 20px;
+  margin: 0 10px 10px 0;
+  border-radius: 2px;
+  line-height: 28px;
+}
+
+.option:hover {
+  cursor: pointer;
+}
+
+.activeOption {
+  composes: option;
+  background: var(--link-blue);
+  color: white;
+  opacity: 1;
+}
+
+.activeOption:hover {
+  opacity: 0.7;
+}
+
+.inactiveOption {
+  composes: option;
+}
+
+.inactiveOption:hover {
+  cursor: pointer;
+  background: var(--sky-blue-dark);
+  opacity: 1;
+}

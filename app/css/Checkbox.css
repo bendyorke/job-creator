@@ -1,0 +1,36 @@
+.checkbox {
+  line-height: 24px;
+  padding-left: 40px;
+  position: relative;
+}
+
+.checkbox::before {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 0;
+  left: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+}
+
+.inactive {
+  composes: checkbox;
+}
+
+.inactive::before {
+  border-color: var(--steel-blue);
+  opacity: 0.3;
+}
+
+.active {
+  composes: checkbox;
+}
+
+.active::before {
+  background: url(assets/check.png) no-repeat center / 11px auto, var(--link-blue);
+  border-color: var(--link-blue);
+  opacity: 1;
+}

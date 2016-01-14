@@ -11,6 +11,7 @@ import reducers from 'reducers'
  * long break it out into it's own file
  */
 import Layout from 'components/Layout'
+import NewJob from 'components/NewJob'
 
 /**
  * redux-simple-router@^2.0.0 uses middleware
@@ -36,7 +37,9 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={Layout}>
-        <Route path="jobs" />
+        <Route path="jobs">
+          <Route path="new" component={NewJob} />
+        </Route>
         <Route path="candidates" />
       </Route>
     </Router>
