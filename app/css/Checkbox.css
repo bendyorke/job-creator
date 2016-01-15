@@ -4,6 +4,10 @@
   position: relative;
 }
 
+.checkbox:hover {
+  cursor: pointer;
+}
+
 .checkbox::before {
   content: '';
   position: absolute;

@@ -14,9 +14,6 @@ class Markdown extends Component {
 
   render() {
     const { children, ...props } = this.props
-    console.log(children.length)
-    console.log(children.slice(0, 50))
-    console.log(MARKDOWN_PARSER.render(children.slice(0, 50)))
     return (
       <div {...props}>
         <div className={styles.container}>

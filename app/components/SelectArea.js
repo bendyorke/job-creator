@@ -28,10 +28,18 @@ class SelectArea extends Component {
   static propTypes = {
     options: PropTypes.array,
     className: PropTypes.string,
+    onChange: PropTypes.func,
   };
 
   get value() {
     this.state.active
+  }
+
+  componentWillUpdate(_props, state) {
+    const { onChange } = this.props
+    if (onChange && this.state.active.length !== state.active.length) {
+      onChange(state.active)
+    }
   }
 
   handleClick = opt => event => {

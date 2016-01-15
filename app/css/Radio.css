@@ -6,6 +6,10 @@
   position: relative;
 }
 
+.radio:hover {
+  cursor: pointer;
+}
+
 .radio::before {
   content: '';
   position: absolute;

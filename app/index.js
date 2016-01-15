@@ -1,8 +1,9 @@
+import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory, useRouterHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory, useRouterHistory } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
 import reducers from 'reducers'
 
@@ -12,6 +13,8 @@ import reducers from 'reducers'
  */
 import Layout from 'components/Layout'
 import NewJob from 'components/NewJob'
+import Jobs from 'components/Jobs'
+import Candidates from 'components/Candidates'
 
 /**
  * redux-simple-router@^2.0.0 uses middleware
@@ -37,10 +40,12 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={Layout}>
+        <IndexRoute component={Jobs} />
         <Route path="jobs">
+          <IndexRoute component={Jobs} />
           <Route path="new" component={NewJob} />
         </Route>
-        <Route path="candidates" />
+        <Route path="candidates" component={Candidates} />
       </Route>
     </Router>
   </Provider>,

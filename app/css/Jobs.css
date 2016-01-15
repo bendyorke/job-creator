@@ -1,0 +1,6 @@
+.button {
+  composes: button from 'css/NewJob';
+  display: block;
+  width: 100px;
+  margin: 40px auto;
+}

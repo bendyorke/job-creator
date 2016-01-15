@@ -1,0 +1,50 @@
+:root {
+  --spacing: 25px;
+}
+
+.container {
+  width: 100%;
+}
+
+.rule {
+  width: 100%;
+  height: 1px;
+  background: var(--steel-blue);
+  margin: 0;
+  opacity: 0.1;
+  margin-top: calc(var(--spacing) - 10px);
+  margin-bottom: calc(var(--spacing) + 10px);
+}
+
+.rule:first-child {
+  margin-top: 0;
+}
+
+.label {
+  display: block;
+  width: 100%;
+  margin-bottom: var(--spacing);
+  font-size: 18px;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: var(--spacing);
+}
+
+.checkbox {
+  margin-bottom: var(--spacing);
+}
+
+.select {
+  margin-bottom: var(--spacing);
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid color(var(--steel-blue) a(20%));
+  border-radius: 2px;
+  padding: 20px;
+  font-size: 16px;
+}

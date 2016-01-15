@@ -17,16 +17,48 @@
 }
 
 .column {
-  width: 46%;
+  width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding-top: 60px;
+
+  @media screen and (min-width: 950px) {
+    width: 46%;
+  }
+}
+
+.inactiveColumn {
+  composes: column;
+  display: none;
+
+  @media screen and (min-width: 950px) {
+    display: flex;
+  }
 }
 
 .columnTitle {
+  width: 100%;
   font-size: 18px;
   line-height: 36px;
+  padding-top: 60px;
   margin-bottom: var(--spacing);
+}
+
+.columnMasthead {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  height: 55px;
+}
+
+.columnSubtitle {
+  composes: columnMasthead;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.link {
+  color: var(--link-blue);
+  padding: 0 4px;
 }
 
 .radio {
@@ -34,42 +66,9 @@
   margin-bottom: var(--spacing);
 }
 
-.rule {
-  width: 100%;
-  height: 1px;
-  background: var(--steel-blue);
-  margin: 0;
-  opacity: 0.1;
-  margin-top: calc(var(--spacing) - 10px);
-  margin-bottom: calc(var(--spacing) + 10px);
-}
-
-.label {
-  width: 100%;
-  margin-bottom: var(--spacing);
-  font-size: 18px;
-}
-
-.input {
-  width: 100%;
-  margin-bottom: var(--spacing);
-  padding: 15px;
-  border: 1px solid color(var(--steel-blue) a(20%));
-  font-size: 18px;
-  border-radius: 2px;
-}
-
-.checkbox {
-  margin-bottom: var(--spacing);
-}
-
 .textarea {
-  display: block;
-  width: 100%;
-  border: 1px solid color(var(--steel-blue) a(20%));
-  border-radius: 2px;
-  padding: 20px;
-  font-size: 16px;
+  composes: textarea from 'css/NewJobForm';
+  height: 300px;
 }
 
 .preview {
@@ -77,12 +76,17 @@
   border: 1px solid var(--sky-blue-shadow);
   border-radius: 3px;
   padding: 50px;
+  width: 100%;
   margin-bottom: var(--spacing);
 }
 
-.publish {
+.button {
   background: var(--sky-blue-dark);
   padding: 20px 30px;
   color: var(--link-blue);
   text-decoration: underline;
+}
+
+.button:hover {
+  cursor: pointer;
 }
