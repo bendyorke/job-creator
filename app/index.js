@@ -3,8 +3,9 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, browserHistory, useRouterHistory } from 'react-router'
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
+import { createHistory, useBasename } from 'history'
 import reducers from 'reducers'
 
 /**
@@ -17,10 +18,16 @@ import Jobs from 'components/Jobs'
 import Candidates from 'components/Candidates'
 
 /**
+ * Use a basename
+ */
+const history = useBasename(createHistory)({ basename: '/job-creator' })
+history.__v2_compatible__ = true
+
+/**
  * redux-simple-router@^2.0.0 uses middleware
  * to maintain a unidirectional data flow
  */
-const routerMiddleware = syncHistory(browserHistory)
+const routerMiddleware = syncHistory(history)
 
 /**
  * not doing anything fancy with the store, so it's
@@ -38,8 +45,8 @@ routerMiddleware.syncHistoryToStore(store)
  */
 render(
   <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/job-creator/" component={Layout}>
+    <Router history={history}>
+      <Route path="/" component={Layout}>
         <IndexRoute component={Jobs} />
         <Route path="jobs">
           <IndexRoute component={Jobs} />
