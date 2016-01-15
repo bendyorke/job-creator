@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: [
-    './src/index'
+    path.join(__dirname, 'app'),
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -24,11 +24,30 @@ module.exports = {
       }
     })
   ],
+  resolve: {
+    modulesDirectories: ['app', 'node_modules'],
+    extensions: ['', '.js', '.jsx', '.css'],
+  },
+  postcss: [
+    require('postcss-nested'),
+    require('postcss-custom-properties')({ variables: require('./app/css') }),
+    require('postcss-color-function'),
+  ],
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?/,
       loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
-  }
+      exclude: /node_modules/,
+    }, {
+      test: /\.css/,
+      loaders: [
+        'style',
+        'css?module&importLoaders=1&localIdentName=[name]-[local]-[hash:4]',
+        'postcss',
+      ],
+    }, {
+      test: /\.(png|jpe?g)$/,
+      loaders: ['file'],
+    }],
+  },
 };
