@@ -39,7 +39,7 @@ routerMiddleware.syncHistoryToStore(store)
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={Layout}>
+      <Route path="/job-creator/" component={Layout}>
         <IndexRoute component={Jobs} />
         <Route path="jobs">
           <IndexRoute component={Jobs} />
