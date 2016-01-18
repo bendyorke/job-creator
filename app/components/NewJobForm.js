@@ -5,6 +5,7 @@ import { updateNewJob } from 'actions'
 import Checkbox from 'components/Checkbox'
 import TypeAhead from 'components/TypeAhead'
 import SelectArea from 'components/SelectArea'
+import Autocomplete from 'components/Autocomplete'
 import styles from 'css/NewJobForm'
 
 class NewJobForm extends Component {
@@ -43,6 +44,15 @@ class NewJobForm extends Component {
           className={styles.input}
           onChange={this.handleUpdate('title')}
           onOptionSelected={this.handleUpdate('title')} />
+
+        <div className={styles.rule} />
+        <label className={styles.label}>Job title (new)</label>
+
+        <Autocomplete
+          items={suggestions.jobs}
+          className={styles.input}>
+          <input onChange={this.handleUpdate('title')} />
+        </Autocomplete>
 
         <div className={styles.rule} />
         <label className={styles.label}>Location</label>
