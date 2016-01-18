@@ -2,74 +2,94 @@ import React, { PropTypes, Component } from 'react'
 
 import styles from 'css/SelectArea'
 
-class Option extends Component {
-  static propTypes = {
-    active: PropTypes.bool,
-    children: PropTypes.node,
-    onClick: PropTypes.func,
-  };
-
-  render() {
-    const { active, children, onClick } = this.props
-
-    return (
-      <div className={styles[active ? 'activeOption' : 'inactiveOption']} onClick={onClick}>
-        {children}
-      </div>
-    )
-  }
-}
+const Button = ({active, option}) => (
+  <div className={styles[active ? 'activeOption' : 'inactiveOption']}>
+    {option}
+  </div>
+)
 
 class SelectArea extends Component {
-  state = {
-    active: [],
+  static propTypes = {
+    className: PropTypes.string,
+    options: PropTypes.array,
+    select: PropTypes.func,
+    sort: PropTypes.any,
+    renderOption: PropTypes.func,
+    renderButton: PropTypes.func,
+    children: PropTypes.element,
   };
 
-  static propTypes = {
-    options: PropTypes.array,
-    className: PropTypes.string,
-    onChange: PropTypes.func,
+  static defaultProps = {
+    options: [],
+    select: (opt, value) => value.includes(opt),
+    sort: () => {},
+    renderOption: option => <option value={option}>{option}</option>,
+    renderButton: Button,
+    children: <select multiple />,
   };
+
+  get options() {
+    const { options, sort } = this.props
+
+    return options.sort(sort)
+  }
 
   get value() {
-    this.state.active
-  }
+    const value = [].filter
+      .call(this.refs.select, opt => opt.selected)
+      .map(opt => opt.value)
 
-  componentWillUpdate(_props, state) {
-    const { onChange } = this.props
-    if (onChange && this.state.active.length !== state.active.length) {
-      onChange(state.active)
-    }
-  }
+    console.log(JSON.stringify(value))
+    return value
+  };
 
-  handleClick = opt => event => {
-    const { active } = this.state
+  handleClick = option => event => {
+    const { select } = this.props
+    const value = this.value
 
-    if (active.includes(opt)) {
-      this.setState({
-        active: active.filter(o => o !== opt),
-      })
-    } else {
-      this.setState({
-        active: [...active, opt],
-      })
-    }
+    const nextValue = select(option, value)
+      ? value.filter(v => v !== option)
+      : [...value, option]
+    this.refs.select.value = nextValue
+
+    const changeEvent = new Event('input', {bubbles: true})
+    this.refs.select.dispatchEvent(changeEvent)
   };
 
   render() {
-    const { options, className, ...props } = this.props
-    const { active } = this.state
+    const {
+      options,
+      select,
+      sort,
+      renderOption,
+      renderButton,
+      children,
+      className,
+      ...props,
+    } = this.props
+
+    const value = this.value
+
+    const renderedButtons = this.options.map((option, index) => {
+      const active = select(option, value)
+      return React.cloneElement(renderButton({option, active, index}), {
+        onClick: this.handleClick(option),
+        key: index,
+      })
+    })
+
+    const renderedOptions = this.options.map((option, index) => {
+      return React.cloneElement(renderOption(option), {
+        key: index,
+      })
+    })
 
     return (
       <div className={`${styles.container} ${className}`} {...props}>
-        {options.map((opt, i) => (
-          <Option
-            active={active.includes(opt)}
-            onClick={this.handleClick(opt)}
-            key={i}>
-            {opt}
-          </Option>
-        ))}
+        {renderedButtons}
+        {React.cloneElement(children, {
+          ref: 'select',
+        }, renderedOptions)}
       </div>
     )
   }

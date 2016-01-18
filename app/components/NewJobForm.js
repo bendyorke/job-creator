@@ -15,21 +15,22 @@ class NewJobForm extends Component {
     updateNewJob: PropTypes.func,
   };
 
-  handleCheck = event => {
+  handleCheck = _event => {
     this.setState({remote: !this.state.remote})
   };
 
   handleUpdate = key => event => {
     const value = event && event.target ? event.target.value : event
+    console.log(value, event)
     this.props.updateNewJob({[key]: value})
   };
 
   render() {
     const {
       newJob: {
-        title,
-        location,
         remote,
+        skills,
+        benefits,
       },
       suggestions,
     } = this.props
@@ -38,15 +39,6 @@ class NewJobForm extends Component {
       <div className={styles.container}>
         <div className={styles.rule} />
         <label className={styles.label}>Job title</label>
-
-        <TypeAhead
-          options={suggestions.jobs}
-          className={styles.input}
-          onChange={this.handleUpdate('title')}
-          onOptionSelected={this.handleUpdate('title')} />
-
-        <div className={styles.rule} />
-        <label className={styles.label}>Job title (new)</label>
 
         <Autocomplete
           items={suggestions.jobs}
@@ -77,6 +69,7 @@ class NewJobForm extends Component {
         <SelectArea
           className={styles.select}
           options={suggestions.skills}
+          value={skills}
           onChange={this.handleUpdate('skills')}/>
 
         <div className={styles.rule} />
@@ -85,6 +78,7 @@ class NewJobForm extends Component {
         <SelectArea
           className={styles.select}
           options={suggestions.benefits}
+          value={benefits}
           onChange={this.handleUpdate('benefits')}/>
 
         <div className={styles.rule} />
