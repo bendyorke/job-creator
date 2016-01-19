@@ -5,7 +5,7 @@ const sample = array => {
 }
 
 export function spin(string) {
-  return spins[string]
+  return (spins[string] || string)
     .split(/{([^}]*)}/)
     .map(partial => sample(partial.split('|')))
     .join('')

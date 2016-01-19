@@ -2,8 +2,10 @@ import { spin } from 'utils/spin'
 
 export function updateNewJob(updates) {
   const payload = Object.entries(updates).reduce((memo, [key, value]) => {
-    let spunValue = value.constructor === Array ? value.map(spin) : value
-    return {...memo, [key]: spunValue}
+    let descriptor = value.constructor === Array
+      ? value.map(v => [v, spin(v)])
+      : value
+    return {...memo, [key]: descriptor}
   }, {})
 
   return {

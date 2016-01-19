@@ -1,0 +1,12 @@
+.quickInput {
+
+}
+
+.autocomplete {
+  composes: autocomplete from 'css/Autocomplete';
+  margin-bottom: 15px;
+}
+
+.selectArea {
+  composes: autocomplete from 'css/Autocomplete';
+}

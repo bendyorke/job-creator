@@ -1,32 +1,44 @@
 const convertToMarkdown = ({
   title = '',
-  location = '',
+  locations = {},
   about = '',
   remote = false,
-  skills = [],
-  benefits = [],
+  skills = {},
+  benefits = {},
 }) => `
 ##### ${title}
-###### ${remote ? 'Remote' : location}
+###### ${Object.values(locations).join(' | ')}
 
 ${about}
 
-${skills.length ? 'Skills Required:' : ''}
-${skills.map(s => "\n- " + s).join('')}
+${Object.values(skills).length ? 'Skills Required:' : ''}
+${Object.values(skills).map(s => '\n- ' + s).join('')}
 
-${benefits.length ? 'Benefits:' : ''}
-${benefits.map(b => "\n- " + b).join('')}
+${Object.values(benefits).length ? 'Benefits:' : ''}
+${Object.values(benefits).map(b => '\n- ' + b).join('')}
 `
 
 const initialNewJob = {
+  skills: {},
+  benefits: {},
+  locations: {},
   preview: convertToMarkdown({}),
 }
 
 const newJobReducer = (state = initialNewJob, action) => {
-  switch(action.type) {
+  switch (action.type) {
 
   case 'UPDATE_NEW_JOB':
-    let newState = {...state, ...action.payload}
+    let newState = {
+      ...state,
+      ...Object.entries(action.payload).reduce((memo, [key, descriptor]) => {
+        let value = descriptor.constructor === Array
+          ? descriptor.reduce((memo, [acc, val]) => ({ ...memo, [acc]: state[key][acc] || val }), {})
+          : descriptor
+
+        return {...memo, [key]: value}
+      }, {}),
+    }
 
     let newMarkdown = convertToMarkdown(newState)
 

@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 
+import styles from 'css/Autocomplete'
+
 class Autocomplete extends Component {
   static propTypes = {
     items: PropTypes.array,
     filter: PropTypes.func,
     sort: PropTypes.any,
+    limit: PropTypes.number,
     renderMenu: PropTypes.func,
     renderItem: PropTypes.func,
-    onChange: PropTypes.func,
-    onSelect: PropTypes.func,
+    onSelectItem: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     children: PropTypes.element,
@@ -20,7 +22,7 @@ class Autocomplete extends Component {
     sort: () => {},
     renderMenu: ({items}) => <ul>{items}</ul>,
     renderItem: ({item, highlighted}) =>
-      <li>{highlighted ? <strong>{item}</strong> : item}</li>,
+      <li className={highlighted ? styles.active : null}>{item}</li>,
     children: <input type="text" />,
   };
 
@@ -29,13 +31,18 @@ class Autocomplete extends Component {
     highlighted: -1,
   };
 
+  get input() {
+    return this.refs.input
+  }
+
   get items() {
-    const { items, filter, sort } = this.props
+    const { items, filter, sort, limit } = this.props
     const { value = '' } = this.refs.input || {}
 
     return items
       .filter(item => filter(item, value))
       .sort(sort)
+      .slice(0, limit)
   }
 
   componentWillMount() {
@@ -66,20 +73,20 @@ class Autocomplete extends Component {
   };
 
   // item
-  handleSelect = item => event => {
-    const { onSelect } = this.props
+  handleSelectItem = item => event => {
+    const { onSelectItem } = this.props
     const { input } = this.refs
 
     /**
-     * If there is no onSelect, just update the value
+     * If there is no onSelectItem, just update the value
      */
-    const selectHandler = onSelect
-      ? onSelect(item, event)
+    const selectHandler = onSelectItem
+      ? onSelectItem(item, event)
       : input.value = item
 
     /**
      * After updating the value, we need to trigger an onChange event.
-     * Can also trigger by returning true in onSelect
+     * Can also trigger by returning true in onSelectItem
      */
     if (selectHandler) {
       const changeEvent = new Event('input', { bubbles: true })
@@ -97,6 +104,7 @@ class Autocomplete extends Component {
     })
   };
 
+  // children
   // children
   handleFocus = event => {
     const { onFocus } = this.props
@@ -137,12 +145,17 @@ class Autocomplete extends Component {
     case 'Enter':
       event.preventDefault()
       if (highlighted > -1) {
-        this.handleSelect(this.items[highlighted])(event)
+        this.handleSelectItem(this.items[highlighted])(event)
       }
       return
 
     case 'Escape':
       this.close()
+      return
+
+    default:
+      // TODO: Add debounce
+      setTimeout(() => this.forceUpdate())
       return
     }
   };
@@ -163,9 +176,8 @@ class Autocomplete extends Component {
       return React.cloneElement(Item({item, index, highlighted}), {
         onMouseEnter: this.handleMouseEnter(index),
         onMouseDown: this.handleMouseDown,
-        onClick: this.handleSelect(item),
-        ref: `item-${index}`,
-        key: index,
+        onClick: this.handleSelectItem(item),
+        key: `${index}${item.substr(0,3)}`,
       })
     })
 
@@ -174,7 +186,7 @@ class Autocomplete extends Component {
     })
 
     return (
-      <div {...props}>
+      <div className={styles.autocomplete} {...props}>
         {React.cloneElement(children, {
           onKeyDown: this.handleKeyDown,
           onFocus: this.handleFocus,

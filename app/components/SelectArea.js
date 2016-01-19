@@ -3,7 +3,7 @@ import React, { PropTypes, Component } from 'react'
 import styles from 'css/SelectArea'
 
 const Button = ({active, option}) => (
-  <div className={styles[active ? 'activeOption' : 'inactiveOption']}>
+  <div className={styles[active ? 'activeButton' : 'inactiveButton']}>
     {option}
   </div>
 )
@@ -12,20 +12,23 @@ class SelectArea extends Component {
   static propTypes = {
     className: PropTypes.string,
     options: PropTypes.array,
-    select: PropTypes.func,
+    getValue: PropTypes.func,
     sort: PropTypes.any,
     renderOption: PropTypes.func,
     renderButton: PropTypes.func,
+    value: PropTypes.array,
+    onChange: PropTypes.func,
     children: PropTypes.element,
   };
 
   static defaultProps = {
     options: [],
-    select: (opt, value) => value.includes(opt),
+    value: [],
     sort: () => {},
-    renderOption: option => <option value={option}>{option}</option>,
+    getValue: option => option,
+    renderOption: ({option, getValue}) => <option value={getValue(option)}>{option}</option>,
     renderButton: Button,
-    children: <select multiple />,
+    children: <select />,
   };
 
   get options() {
@@ -35,51 +38,46 @@ class SelectArea extends Component {
   }
 
   get value() {
-    const value = [].filter
-      .call(this.refs.select, opt => opt.selected)
+    const { input = {} } = this.refs || {}
+
+    return [].filter
+      .call(input.options || [], opt => opt.selected)
       .map(opt => opt.value)
+  }
 
-    console.log(JSON.stringify(value))
-    return value
-  };
+  handleClick = option => _event => {
+    const { getValue, value, onChange } = this.props
 
-  handleClick = option => event => {
-    const { select } = this.props
-    const value = this.value
-
-    const nextValue = select(option, value)
-      ? value.filter(v => v !== option)
+    const nextValue = value.includes(getValue(option))
+      ? value.filter(value => value !== getValue(option))
       : [...value, option]
-    this.refs.select.value = nextValue
 
-    const changeEvent = new Event('input', {bubbles: true})
-    this.refs.select.dispatchEvent(changeEvent)
+    onChange && onChange(nextValue)
   };
 
   render() {
     const {
       options,
-      select,
       sort,
+      getValue,
       renderOption,
       renderButton,
       children,
       className,
+      value,
       ...props,
     } = this.props
 
-    const value = this.value
-
     const renderedButtons = this.options.map((option, index) => {
-      const active = select(option, value)
+      const active = value.includes(getValue(option))
       return React.cloneElement(renderButton({option, active, index}), {
         onClick: this.handleClick(option),
-        key: index,
+        key: `${index}${Math.random()}`,
       })
     })
 
     const renderedOptions = this.options.map((option, index) => {
-      return React.cloneElement(renderOption(option), {
+      return React.cloneElement(renderOption.call(this, {option, getValue}), {
         key: index,
       })
     })
@@ -88,7 +86,11 @@ class SelectArea extends Component {
       <div className={`${styles.container} ${className}`} {...props}>
         {renderedButtons}
         {React.cloneElement(children, {
-          ref: 'select',
+          style: {visibility: 'hidden', height: 0, width: 0},
+          multiple: true,
+          ref: 'input',
+          readOnly: true,
+          value,
         }, renderedOptions)}
       </div>
     )
@@ -98,5 +100,4 @@ class SelectArea extends Component {
 export {
   SelectArea as default,
   SelectArea,
-  Option,
 }
