@@ -4,7 +4,7 @@ Create job's with minimal typing.
 
 ## Getting started
 
-A demo is available on [bendyorke.com/job-creator](http://bendyorke.com/job-creator)
+A demo is available on [bendyorke.github.io/job-creator](http://bendyorke.github.io/job-creator)
 
 To start your own server, clone this repo then run:
 
